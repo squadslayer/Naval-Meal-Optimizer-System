@@ -1,0 +1,4 @@
+release: python manage.py migrate
+web: gunicorn my_project.wsgi:application --bind 0.0.0.0:$PORT
+worker: celery -A my_project worker --loglevel=info
+websocket: daphne my_project.asgi:application -p $PORT -b 0.0.0.0
