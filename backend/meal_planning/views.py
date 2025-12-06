@@ -4,6 +4,7 @@ from django.db.models import Count, Avg, Sum
 from datetime import date, timedelta
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -13,6 +14,8 @@ from .permissions import IsAdminUser, IsChefUser, IsSailorUser
 from .models import *
 from .serializers import *
 from .tasks import run_meal_plan_optimization
+from django.core.exceptions import ValidationError
+
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -28,6 +31,7 @@ class LoginView(APIView):
                 'user': UserSerializer(user).data
             })
         return Response({'error': 'Invalid Credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class AdminActionView(APIView):
     permission_classes = [IsAdminUser]
@@ -58,6 +62,7 @@ class AdminActionView(APIView):
 
         return Response({'error': 'Invalid action'}, status=status.HTTP_400_BAD_REQUEST)
 
+
 class StockManagementView(APIView):
     permission_classes = [IsAdminUser]
 
@@ -81,6 +86,7 @@ class StockManagementView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class DishManagementView(APIView):
     permission_classes = [IsAdminUser]
@@ -106,6 +112,7 @@ class DishManagementView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class SailorProfileView(APIView):
     permission_classes = [IsSailorUser]
 
@@ -121,6 +128,7 @@ class SailorProfileView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class FeedbackView(APIView):
     permission_classes = [IsSailorUser]
 
@@ -130,6 +138,7 @@ class FeedbackView(APIView):
             serializer.save(sailor=request.user)
             return Response({'success': True}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class AnalyticsView(APIView):
     permission_classes = [IsAdminUser]
@@ -143,13 +152,29 @@ class AnalyticsView(APIView):
         satisfaction = SatisfactionRating.objects.filter(meal_plan__meal_date__gte=start_date).values(
             'meal_plan__dish__dish_name').annotate(avg=Avg('rating')).order_by('-avg')
         return Response({'stock_usage': list(stock), 'satisfaction': list(satisfaction)})
+
+
 class SailorMealPlanView(APIView):
     permission_classes = [IsSailorUser]
 
     def get(self, request):
-        # Find all meal plan assignments for the current sailor
         assignments = SailorAssignment.objects.filter(sailor=request.user).select_related('meal_plan__dish')
-        # Extract the actual MealPlan objects from the assignments
         meal_plans = [assignment.meal_plan for assignment in assignments]
         serializer = SailorMealPlanSerializer(meal_plans, many=True)
+        return Response(serializer.data)
+
+
+class ChefAssignmentView(APIView):
+    permission_classes = [IsChefUser]
+
+    def get(self, request):
+        today = date.today()
+        assignments = ChefAssignment.objects.filter(
+            chef=request.user,
+            meal_plan__meal_date__gte=today
+        ).select_related(
+            'meal_plan__dish'
+        ).order_by('meal_plan__meal_date', 'meal_plan__meal_type')
+
+        serializer = ChefAssignmentSerializer(assignments, many=True)
         return Response(serializer.data)

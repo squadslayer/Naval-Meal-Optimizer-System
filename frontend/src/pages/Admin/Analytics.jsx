@@ -51,7 +51,6 @@ export default function Analytics() {
         </div>
       </div>
 
-      {/* Stock Usage Analytics */}
       <div className="bg-white shadow rounded-lg">
         <div className="px-4 py-5 sm:p-6">
           <div className="flex items-center mb-4">
@@ -86,7 +85,6 @@ export default function Analytics() {
         </div>
       </div>
 
-      {/* Satisfaction Analytics */}
       <div className="bg-white shadow rounded-lg">
         <div className="px-4 py-5 sm:p-6">
           <div className="flex items-center mb-4">

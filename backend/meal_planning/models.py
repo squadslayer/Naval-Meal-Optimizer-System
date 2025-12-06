@@ -76,16 +76,6 @@ class Voyage(models.Model):
     is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def clean(self):
-        if self.end_date < self.start_date:
-            raise ValidationError("End date cannot be before start date.")
-        if self.total_days != (self.end_date - self.start_date).days + 1:
-            raise ValidationError("Total days does not match date range.")
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super().save(*args, **kwargs)
-
 
 class MealPlan(models.Model):
     voyage = models.ForeignKey(Voyage, on_delete=models.CASCADE, related_name='meal_plans')

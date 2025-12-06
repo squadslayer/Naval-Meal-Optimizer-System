@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { PlusIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 export default function StockManagement() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -76,7 +76,6 @@ export default function StockManagement() {
         </div>
       </div>
 
-      {/* Add Item Form */}
       {showForm && (
         <div className="bg-white shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
@@ -169,7 +168,6 @@ export default function StockManagement() {
         </div>
       )}
 
-      {/* Stock Items Table */}
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -204,8 +202,8 @@ export default function StockManagement() {
                     Reorder: {item.reorder_level} {item.unit}
                   </div>
                   <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    item.needs_reorder 
-                      ? 'bg-red-100 text-red-800' 
+                    item.needs_reorder
+                      ? 'bg-red-100 text-red-800'
                       : 'bg-green-100 text-green-800'
                   }`}>
                     {item.needs_reorder ? 'Low Stock' : 'In Stock'}

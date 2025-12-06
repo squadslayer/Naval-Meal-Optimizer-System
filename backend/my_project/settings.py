@@ -5,10 +5,10 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# --- Core Security Settings (from .env) ---
+# --- Core Security Settings ---
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['*']  # Be more specific in production
+ALLOWED_HOSTS = ['*']
 
 # --- Application Definition ---
 INSTALLED_APPS = [
@@ -58,11 +58,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'my_project.wsgi.application'
 ASGI_APPLICATION = 'my_project.asgi.application'
 
-# --- Database (PostgreSQL from DATABASE_URL) ---
+# --- Database ---
 DATABASES = {
     'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
 
+# --- Authentication ---
 AUTH_USER_MODEL = 'meal_planning.User'
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -77,7 +78,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# --- Static files (for Whitenoise) ---
+# --- Static files ---
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -86,6 +87,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # --- CORS Settings ---
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"]
 CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://localhost:5173']
 
 # --- DRF, JWT, and Spectacular Settings ---
 REST_FRAMEWORK = {
@@ -103,7 +105,7 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
 }
 
-# --- Caching (Using Redis) ---
+# --- Caching ---
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -114,7 +116,7 @@ CACHES = {
     }
 }
 
-# --- Channels (Using Redis) ---
+# --- Channels ---
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -123,9 +125,8 @@ CHANNEL_LAYERS = {
         },
     },
 }
-# Add this line to tell Django which frontend sites are trusted
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://localhost:5173']
-# --- Celery Configuration (Using Redis) ---
+
+# --- Celery Configuration ---
 CELERY_BROKER_URL = config('REDIS_URL')
 CELERY_RESULT_BACKEND = config('REDIS_URL')
 CELERY_ACCEPT_CONTENT = ['json']

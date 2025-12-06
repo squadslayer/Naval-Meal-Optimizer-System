@@ -99,7 +99,6 @@ export default function DishManagement() {
         </div>
       </div>
 
-      {/* Add Dish Form */}
       {showForm && (
         <div className="bg-white shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
@@ -260,7 +259,6 @@ export default function DishManagement() {
         </div>
       )}
 
-      {/* Dishes Grid */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {dishes.map((dish) => (
           <div key={dish.id} className="bg-white overflow-hidden shadow rounded-lg">
@@ -268,14 +266,14 @@ export default function DishManagement() {
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-medium text-gray-900">{dish.dish_name}</h3>
                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  dish.dish_type === 'veg' 
-                    ? 'bg-green-100 text-green-800' 
+                  dish.dish_type === 'veg'
+                    ? 'bg-green-100 text-green-800'
                     : 'bg-red-100 text-red-800'
                 }`}>
                   {dish.dish_type === 'veg' ? 'Vegetarian' : 'Non-Vegetarian'}
                 </span>
               </div>
-              
+
               {dish.calories && (
                 <div className="mt-2 text-sm text-gray-600">
                   <p>Calories: {dish.calories}</p>

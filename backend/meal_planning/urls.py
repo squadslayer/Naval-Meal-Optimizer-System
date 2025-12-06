@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/analytics/', views.AnalyticsView.as_view(), name='analytics'),
     path('sailor/profile/', views.SailorProfileView.as_view(), name='sailor_profile'),
     path('sailor/feedback/', views.FeedbackView.as_view(), name='submit_feedback'),
-    # Add this new path to your urlpatterns list
     path('sailor/meal-plans/', views.SailorMealPlanView.as_view(), name='sailor_meal_plans'),
+    # --- NEW URL FOR CHEF DASHBOARD ---
+    path('chef/assignments/', views.ChefAssignmentView.as_view(), name='chef_assignments'),
 ]
