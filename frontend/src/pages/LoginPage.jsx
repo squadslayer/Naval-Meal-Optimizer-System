@@ -5,19 +5,21 @@ import { useAuth } from '../context/AuthContext.jsx';
 export default function LoginPage() {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     try {
       const result = await login(formData);
       if (result.success) {
         navigate('/dashboard');
       }
-    } catch (error) {
-      // Toast notification is handled in AuthContext
+    } catch (err) {
+      setError(err.message || 'An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -33,6 +35,7 @@ export default function LoginPage() {
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
           Sign in to your account
         </h2>
+        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="username">Username</label>

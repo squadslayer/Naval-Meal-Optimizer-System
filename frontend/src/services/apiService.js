@@ -37,9 +37,12 @@ export const sailorAPI = {
   getProfile: () => api.get('/api/sailor/profile/'),
   updateProfile: (profileData) => api.put('/api/sailor/profile/', profileData),
   submitFeedback: (feedbackData) => api.post('/api/sailor/feedback/', feedbackData),
-
-  // Add or verify this line
   getMealPlans: () => api.get('/api/sailor/meal-plans/'),
+};
+
+// --- NEW API METHODS FOR CHEF ---
+export const chefAPI = {
+  getAssignments: () => api.get('/chef/assignments/'),
 };
 
 export default api;

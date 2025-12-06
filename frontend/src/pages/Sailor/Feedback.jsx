@@ -54,7 +54,6 @@ export default function Feedback() {
       <div className="bg-white shadow rounded-lg">
         <div className="px-4 py-5 sm:p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Meal Plan ID */}
             <div>
               <label htmlFor="meal_plan" className="block text-sm font-medium text-gray-700">
                 Meal Plan ID
@@ -74,7 +73,6 @@ export default function Feedback() {
               </p>
             </div>
 
-            {/* Rating */}
             <div>
               <label htmlFor="rating" className="block text-sm font-medium text-gray-700">
                 Overall Rating
@@ -117,7 +115,6 @@ export default function Feedback() {
               </div>
             </div>
 
-            {/* Comments */}
             <div>
               <label htmlFor="comments" className="block text-sm font-medium text-gray-700">
                 Additional Comments
@@ -136,7 +133,6 @@ export default function Feedback() {
               </p>
             </div>
 
-            {/* Submit Button */}
             <div className="flex justify-end">
               <button
                 type="submit"
@@ -151,7 +147,6 @@ export default function Feedback() {
         </div>
       </div>
 
-      {/* Feedback Guidelines */}
       <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
         <div className="flex">
           <div className="flex-shrink-0">

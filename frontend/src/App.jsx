@@ -31,24 +31,19 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
 const DashboardRouter = () => {
   const { user } = useAuth();
 
-  const getDashboard = () => {
-    switch (user?.role) {
-      case 'admin':
-        return <AdminDashboard />;
-      case 'chef':
-        return <ChefDashboard />;
-      case 'sailor':
-        return <SailorDashboard />;
-      default:
-        return <div>Invalid Role. Contact administrator.</div>;
-    }
+  const dashboards = {
+    admin: <AdminDashboard />,
+    chef: <ChefDashboard />,
+    sailor: <SailorDashboard />,
   };
+
+  const DashboardComponent = dashboards[user?.role] || <div>Invalid Role. Contact administrator.</div>;
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <main className="container mx-auto px-4 py-8">
-        {getDashboard()}
+        {DashboardComponent}
       </main>
     </div>
   );

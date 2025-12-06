@@ -7,15 +7,16 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
+      // This rule handles your regular API requests
       '/api': {
         target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
       },
+      // This NEW rule specifically handles WebSocket connections
       '/ws': {
         target: 'ws://localhost:8000',
         ws: true,
-        changeOrigin: true,
       }
     }
   }

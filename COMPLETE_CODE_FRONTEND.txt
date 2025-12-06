@@ -644,3 +644,4 @@ Chef: chef / chef123
 2. Frontend: cd frontend && npm install && npm run dev
 3. Access: http://localhost:3002 (or port shown in terminal)
 4. Login with test credentials above
+
